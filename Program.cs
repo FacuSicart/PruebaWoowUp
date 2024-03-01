@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace PruebaWoowUp
 {
-    // Tipos de alerta
     public enum TipoAlerta
     {
         Informativa,
         Urgente
     }
 
-    // Clase que representa una alerta
     public abstract class Alerta
     {
         public int Id { get; set; }
@@ -45,7 +43,6 @@ namespace PruebaWoowUp
         }
     }
 
-    // Clase que representa a un usuario
     public class Usuario
     {
         public int Id { get; set; } 
@@ -82,14 +79,12 @@ namespace PruebaWoowUp
         }
     }
 
-    // Clase que representa a un tema
     public class Tema
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
     }
 
-    // Clase que implementa el patrón Singleton para el sistema de alertas
     public class SistemaAlertas
     {
         private static SistemaAlertas instancia; 
@@ -207,7 +202,7 @@ namespace PruebaWoowUp
                 Console.WriteLine($"El usuario {usuarioId} no tiene alertas.");
                 return;
             }
-            // Se separa las alertas urgentes y informativas en listas diferentes
+            // Se separa las alertas urgentes e informativas en listas diferentes
             var alertasUrgentes = alertasUsuario.Where(a => a.Tipo == TipoAlerta.Urgente).ToList();
             var alertasInformativas = alertasUsuario.Where(a => a.Tipo == TipoAlerta.Informativa).ToList();
 
@@ -231,11 +226,11 @@ namespace PruebaWoowUp
             if (alerta != null)
             {
                 alerta.Leida = true;
-                Console.WriteLine($"La alerta {alertaId} ha sido marcada como leída por el usuario {usuarioId}.");
+                Console.WriteLine($"La alerta {alertaId} se marco como leída por el usuario {usuarioId}.");
             }
             else
             {
-                Console.WriteLine($"La alerta {alertaId} no existe o no está dirigida al usuario {usuarioId}.");
+                Console.WriteLine($"La alerta {alertaId} no existe o no es para el usuario {usuarioId}.");
             }
         }
         // Método para obtener el usuario por id
