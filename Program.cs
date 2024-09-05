@@ -26,7 +26,7 @@ namespace PruebaWoowUp
         public int? TemaId { get; set; }
         public abstract void Enviar();
     }
-    // Herencia de la clase abstracta Alerta para aplicar polimorfismo sobre el metodo Enviar
+    //Herencia de la clase abstracta Alerta para aplicar polimorfismo sobre el metodo Enviar
     public class AlertaInformativa : Alerta
     {
         public override void Enviar()
@@ -34,7 +34,7 @@ namespace PruebaWoowUp
             Console.WriteLine($"Se envio la alerta informativa a {(UsuarioDestinoId.HasValue ? "usuario " + UsuarioDestinoId.Value.ToString() : "todos los usuarios")}.");
         }
     }
-    // Herencia de la clase abstracta Alerta para aplicar polimorfismo sobre el metodo Enviar
+    //Herencia de la clase abstracta Alerta para aplicar polimorfismo sobre el metodo Enviar
     public class AlertaUrgente : Alerta
     {
         public override void Enviar()
@@ -49,12 +49,12 @@ namespace PruebaWoowUp
         public string Nombre { get; set; }
         public List<int> TemasSubscritos { get; set; } = new List<int>(); 
 
-        // Método para seleccionar temas a suscribirse
+        //Metodo para seleccionar temas a suscribirse
         public void SuscribirseATema(int temaId)
         {
             TemasSubscritos.Add(temaId);
         }
-        // Método para ver temas suscriptos
+        //Metodo para ver temas suscriptos
         public void MostrarTemasSuscritos()
         {
             if (TemasSubscritos.Count == 0)
@@ -95,14 +95,14 @@ namespace PruebaWoowUp
         private SistemaAlertas() { }
         public static SistemaAlertas ObtenerInstancia()
         {
-            if (instancia == null) // Si no existe una instancia previa, se crea una nueva
+            if (instancia == null) //Si no existe una instancia previa, se crea una nueva
             {
                 instancia = new SistemaAlertas();
             }
-            return instancia; // Se retorna la instancia existente o recién creada
+            return instancia; //Se retorna la instancia existente o recien creada
         }
 
-        // Método para registrar un usuario nuevo
+        // Metodo para registrar un usuario nuevo
         public void RegistrarUsuario(string nombre)
         {
             var usuario = new Usuario
@@ -114,7 +114,7 @@ namespace PruebaWoowUp
             Console.WriteLine($"El usuario '{nombre}' se registro correctamente.");
         }
 
-        // Método para registrar un tema nuevo
+        //Metodo para registrar un tema nuevo
         public void RegistrarTema(string nombre)
         {
             var tema = new Tema
@@ -125,13 +125,13 @@ namespace PruebaWoowUp
             temas.Add(tema);
             Console.WriteLine($"El tema '{nombre}' se registro correctamente.");
         }
-        // Método para obter el tema por id
+        //Metodo para obter el tema por id
         public Tema ObtenerTemaPorId(int temaId)
         {
             return temas.FirstOrDefault(t => t.Id == temaId);
         }
 
-        // Método para mostrar los temas 
+        //Metodo para mostrar los temas 
         public void MostrarTemas()
         {
             foreach (var tema in temas)
@@ -139,7 +139,7 @@ namespace PruebaWoowUp
                 Console.WriteLine($"ID: {tema.Id}, Nombre: {tema.Nombre}");
             }
         }
-        // Método para mostrar los usuarios
+        //Metodo para mostrar los usuarios
         public void MostrarUsuarios()
         {
             foreach (var usuario in usuarios)
@@ -147,7 +147,7 @@ namespace PruebaWoowUp
                 Console.WriteLine($"ID: {usuario.Id}, Nombre: {usuario.Nombre}");
             }
         }
-        // Método para enviar alerta a todos los que esten suscriptos a un tema
+        //Metodo para enviar alerta a todos los que esten suscriptos a un tema
         public void EnviarAlerta(int temaId, Alerta alerta)
         {
             var usuariosSuscritos = usuarios.Where(u => u.TemasSubscritos.Contains(temaId)).ToList();
@@ -167,7 +167,7 @@ namespace PruebaWoowUp
                 alertas.Add(alertaParaUsuario);
             }
         }
-        // Método para enviar alerta a un usuario solo
+        //Metodo para enviar alerta a un usuario solo
         public void EnviarAlertaUnica(int usuarioId, int temaId, Alerta alerta)
         {
             var alertaParaUsuario = alerta.GetType().GetConstructor(Type.EmptyTypes).Invoke(null) as Alerta;
@@ -183,11 +183,11 @@ namespace PruebaWoowUp
             alertas.Add(alertaParaUsuario);
 
         }
-        // Método que muestra alertas no leidas o por tema
+        //Metodo que muestra alertas no leidas o por tema
         public void MostrarAlertas(int usuarioId, int numDecision, int? temaId = null)
         {
             List<Alerta> alertasUsuario = new List<Alerta>();
-            // Depende la opción que se elija se se muestra la que no esta leida o el tema seleccionado
+            //Depende la opción que se elija se se muestra la que no esta leida o el tema seleccionado
             if (numDecision == 6)
             {
                 alertasUsuario = alertas.Where(a => a.UsuarioDestinoId == usuarioId && a.Leida == false).ToList();
@@ -202,14 +202,14 @@ namespace PruebaWoowUp
                 Console.WriteLine($"El usuario {usuarioId} no tiene alertas.");
                 return;
             }
-            // Se separa las alertas urgentes e informativas en listas diferentes
+            //Se separa las alertas urgentes e informativas en listas diferentes
             var alertasUrgentes = alertasUsuario.Where(a => a.Tipo == TipoAlerta.Urgente).ToList();
             var alertasInformativas = alertasUsuario.Where(a => a.Tipo == TipoAlerta.Informativa).ToList();
 
-            // Invierte el orden de la lista de alertas urgentes de este modo se muestran primero las últimas en llegar
+            //Invierte el orden de la lista de alertas urgentes de este modo se muestran primero las últimas en llegar
             alertasUrgentes.Reverse();
 
-            // Combina las listas teniendo primero las urgentes y luego las informativas
+            //Combina las listas teniendo primero las urgentes y luego las informativas
             alertasUsuario = alertasUrgentes.Concat(alertasInformativas).ToList();
 
             Console.WriteLine($"Alertas del usuario {usuarioId}:");
@@ -219,7 +219,7 @@ namespace PruebaWoowUp
             }
         }
 
-        // Método para marcar una alerta como leída por un usuario específico
+        //Metodo para marcar una alerta como leída por un usuario específico
         public void MarcarAlertaComoLeida(int alertaId, int usuarioId)
         {
             var alerta = alertas.FirstOrDefault(a => a.Id == alertaId && a.UsuarioDestinoId == usuarioId);
@@ -233,7 +233,7 @@ namespace PruebaWoowUp
                 Console.WriteLine($"La alerta {alertaId} no existe o no es para el usuario {usuarioId}.");
             }
         }
-        // Método para obtener el usuario por id
+        //Metodo para obtener el usuario por id
         public Usuario ObtenerUsuarioPorId(int idUsuario)
         {
             return usuarios.FirstOrDefault(u => u.Id == idUsuario);
@@ -353,14 +353,14 @@ namespace PruebaWoowUp
                         Console.WriteLine("IDs los usuarios:");
                         sistemaAlertas.MostrarUsuarios();
 
-                        // Solicita al usuario que seleccione un ID de usuario
+                        //Solicita al usuario que seleccione un ID de usuario
                         Console.Write("Ingrese el ID del usuario para ver sus alertas: ");
                         int usuarioSeleccionado = int.Parse(Console.ReadLine());
 
 
                         if (usuarioSeleccionado != null)
                         {
-                            // Muestra las alertas del usuario seleccionado
+                            //Muestra las alertas del usuario seleccionado
                             SistemaAlertas.ObtenerInstancia().MostrarAlertas(usuarioSeleccionado, 6);
                         }
                         else
@@ -372,13 +372,13 @@ namespace PruebaWoowUp
                         Console.WriteLine("IDs los usuarios:");
                         sistemaAlertas.MostrarUsuarios();
 
-                        // Solicita al usuario que seleccione un ID de usuario
+                        //Solicita al usuario que seleccione un ID de usuario
                         Console.Write("Ingrese el ID del usuario para ver sus alertas: ");
                         usuarioSeleccionado = int.Parse(Console.ReadLine());
 
                         if (usuarioSeleccionado != null)
                         {
-                            // Muestra las alertas del usuario seleccionado por tema
+                            //Muestra las alertas del usuario seleccionado por tema
                             sistemaAlertas.MostrarTemas();
                             Console.Write("Ingrese el ID del tema: ");
                             int temaSeleccionado = int.Parse(Console.ReadLine());
@@ -393,13 +393,13 @@ namespace PruebaWoowUp
                         Console.WriteLine("IDs los usuarios:");
                         sistemaAlertas.MostrarUsuarios();
 
-                        // Solicita al usuario que seleccione un ID de usuario
+                        //Solicita al usuario que seleccione un ID de usuario
                         Console.Write("Ingrese el ID del usuario para ver sus alertas: ");
                         usuarioSeleccionado = int.Parse(Console.ReadLine());
 
                         if (usuarioSeleccionado != null)
                         {
-                            // Muestra las alertas del usuario seleccionado
+                            //Muestra las alertas del usuario seleccionado
                             SistemaAlertas.ObtenerInstancia().MostrarAlertas(usuarioSeleccionado, 6);
                         }
                         else
@@ -414,7 +414,7 @@ namespace PruebaWoowUp
                         Console.WriteLine("Saliendo del programa...");
                         return;
                     default:
-                        Console.WriteLine("Opción no válida. Inténtelo de nuevo.");
+                        Console.WriteLine("Opción no válida. Intentelo de nuevo.");
                         break;
                 }
             }
@@ -428,7 +428,7 @@ namespace PruebaWoowUp
         public void TestRegistrarUsuario()
         {
             
-            // Arrange
+            //Arrange
             var sistemaAlertas = SistemaAlertas.ObtenerInstancia();
             var usuario = new Usuario
             {
@@ -436,10 +436,10 @@ namespace PruebaWoowUp
                 Nombre = "Facu"
             };
             sistemaAlertas.usuarios.Add(usuario);
-            // Act
+            //Act
             sistemaAlertas.RegistrarUsuario("Usuario de prueba");
 
-            // Assert
+            //Assert
             Assert.AreEqual(1, sistemaAlertas.usuarios.Count());
             Assert.AreEqual("Usuario de prueba", sistemaAlertas.usuarios[0].Nombre);
         }
@@ -447,7 +447,7 @@ namespace PruebaWoowUp
         [TestMethod]
         public void TestRegistrarTema()
         {
-            // Arrange
+            //Arrange
             var sistemaAlertas = SistemaAlertas.ObtenerInstancia();
             var tema = new Tema
             {
@@ -455,10 +455,10 @@ namespace PruebaWoowUp
                 Nombre = "Comida"
             };
             sistemaAlertas.temas.Add(tema);
-            // Act
+            //Act
             sistemaAlertas.RegistrarTema("Tema de prueba");
 
-            // Assert
+            //Assert
             Assert.AreEqual(1, sistemaAlertas.temas.Count);
             Assert.AreEqual("Tema de prueba", sistemaAlertas.temas[0].Nombre);
         }
@@ -466,16 +466,16 @@ namespace PruebaWoowUp
         [TestMethod]
         public void TestSuscribirseATema()
         {
-            // Arrange
+            //Arrange
             var sistemaAlertas = SistemaAlertas.ObtenerInstancia();
             sistemaAlertas.RegistrarUsuario("Usuario de prueba");
             sistemaAlertas.RegistrarTema("Tema de prueba");
             var usuario = sistemaAlertas.usuarios[0];
 
-            // Act
+            //Act
             usuario.SuscribirseATema(1);
 
-            // Assert
+            //Assert
             Assert.AreEqual(1, usuario.TemasSubscritos.Count);
             Assert.AreEqual(1, usuario.TemasSubscritos[0]);
         }
